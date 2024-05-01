@@ -8,5 +8,5 @@ struct PhysicalAddress
 };
 typedef struct PhysicalAddress phys_addr;
 
-void print_phys_addr(phys_addr* pa);
+void print_phys_addr(phys_addr *pa);
 #endif

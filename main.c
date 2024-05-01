@@ -42,7 +42,7 @@ void print_phys_full(phys_mem *phys)
                 {
                     phys_addr ident_phys = (get_phys_addr_ident(phys->volumes[i].procs[k]->segments[j].idents[a].name,
                                                                 &phys->volumes[i].procs[k]->segments[j], phys->volumes[i].procs[k], &phys->volumes[i]));
-                    
+
                     printf("%10s|%4llu|%4llu|%4llu|", phys->volumes[i].procs[k]->segments[j].idents[a].name,
                            phys->volumes[i].procs[k]->segments[j].idents[a].addr.segment_id,
                            phys->volumes[i].procs[k]->segments[j].idents[a].addr.addr_in_seg,
@@ -60,17 +60,17 @@ void load_proc_to_mem(mem_control *mem, phys_mem *phys)
     if (mem->procs_count > 0)
     {
         proc *my_proc = &mem->procs[current_proc];
-        
+
         if (get_proc_size(my_proc) <= mem->free_memory)
         {
 
-
             bool status = create_volume(phys, my_proc);
-            if (status){
+            if (status)
+            {
                 printf("Loaded\n");
-                            mem->free_memory -= get_proc_size(my_proc);
-            mem->used_memory += get_proc_size(my_proc);
-            current_proc++;
+                mem->free_memory -= get_proc_size(my_proc);
+                mem->used_memory += get_proc_size(my_proc);
+                current_proc++;
             }
             else
                 printf("Cannot load this proc\n");
@@ -99,13 +99,13 @@ void load_proc_to_spec_mem(mem_control *mem, phys_mem *phys)
             if (get_proc_size(my_proc) <= mem->free_memory)
             {
 
-
                 bool status = add_to_volume(phys, my_proc, value);
-                if (status){
+                if (status)
+                {
                     printf("Loaded\n");
-                                    mem->free_memory -= get_proc_size(my_proc);
-                mem->used_memory += get_proc_size(my_proc);
-                current_proc++;
+                    mem->free_memory -= get_proc_size(my_proc);
+                    mem->used_memory += get_proc_size(my_proc);
+                    current_proc++;
                 }
                 else
                     printf("Cannot load this proc\n");
@@ -133,15 +133,15 @@ void proc_tick(mem_control *mem, phys_mem *phys, size_t tick)
         for (size_t k = 0; k < phys->volumes[i].procs_count; k++)
         {
             phys->volumes[i].procs[k]->lifetime--;
-            if (phys->volumes[i].procs[k]->lifetime == 0){
-                mem->free_memory+=get_proc_size(phys->volumes[i].procs[k]);
-                mem->used_memory-=get_proc_size(phys->volumes[i].procs[k]);
+            if (phys->volumes[i].procs[k]->lifetime == 0)
+            {
+                mem->free_memory += get_proc_size(phys->volumes[i].procs[k]);
+                mem->used_memory -= get_proc_size(phys->volumes[i].procs[k]);
                 delete_proc_from_volume(phys, phys->volumes[i].procs[k], i);
-                mem->procs_count--;         
-                if(phys->volume_count == 0)
+                mem->procs_count--;
+                if (phys->volume_count == 0)
                     break;
             }
-
         }
     }
     printf("Tick %llu\n", tick);
@@ -159,9 +159,9 @@ void unload_proc(mem_control *mem, phys_mem *phys)
         scanf("%llu", &proc_id);
         if (proc_id < phys->volumes[volume_id].procs_count)
         {
-                            mem->free_memory+=get_proc_size(phys->volumes[volume_id].procs[proc_id]);
-                mem->used_memory-=get_proc_size(phys->volumes[volume_id].procs[proc_id]);
-                mem->procs_count--;  
+            mem->free_memory += get_proc_size(phys->volumes[volume_id].procs[proc_id]);
+            mem->used_memory -= get_proc_size(phys->volumes[volume_id].procs[proc_id]);
+            mem->procs_count--;
             delete_proc_from_volume(phys, phys->volumes[volume_id].procs[proc_id], volume_id);
             printf("Success\n");
         }
@@ -196,28 +196,28 @@ int main()
     char c = '\n';
     do
     {
-            switch (c)
-            {
-            case 'a':
-                print_phys_full(&physical);
-                break;
-            case 'b':
-                load_proc_to_mem(&mem, &physical);
-                break;
-            case 'c':
-                load_proc_to_spec_mem(&mem, &physical);
-                break;
-            case 'd':
-                proc_tick(&mem, &physical, cpu_tick);
-                cpu_tick++;
-                break;
-            case 'e':
-                unload_proc(&mem, &physical);
-                break;
-            default:
+        switch (c)
+        {
+        case 'a':
+            print_phys_full(&physical);
+            break;
+        case 'b':
+            load_proc_to_mem(&mem, &physical);
+            break;
+        case 'c':
+            load_proc_to_spec_mem(&mem, &physical);
+            break;
+        case 'd':
+            proc_tick(&mem, &physical, cpu_tick);
+            cpu_tick++;
+            break;
+        case 'e':
+            unload_proc(&mem, &physical);
+            break;
+        default:
             menu();
-                break;
-            };
+            break;
+        };
         c = (char)getchar();
     } while (c != 'q');
     return 0;

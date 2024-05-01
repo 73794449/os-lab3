@@ -7,9 +7,8 @@ struct MemoryController
     size_t used_memory;
     size_t free_memory;
     size_t procs_count;
-    proc* procs;
+    proc *procs;
 };
 typedef struct MemoryController mem_control;
-
 
 #endif
