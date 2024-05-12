@@ -1,4 +1,4 @@
-# Лабораторна робота №3. Керування пам'яттю. Telegram: @t3ry444y
+# Лабораторна робота №3. Керування пам'яттю. Telegram: @t3ry444y (ЗАБРОКОВАНО: БАГ В ПРИ РОЗРАХУНКУ PHYSICAL OFFSET, СТАТУС: WONT FIX) 
 ## Скріншот програми
 ![Alt text](https://github.com/73794449/os-lab3/blob/master/screenshot.png)
 
